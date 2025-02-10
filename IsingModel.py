@@ -1,17 +1,16 @@
 """
-Class containing the lattice system for the Ising Model in 2D, via Glauber dynamics w. Metropolis test.
+Class containing the lattice system for the Ising Model in 2D, via
+Glauber/ Kawasaki dynamics w. Metropolis test.
 
 author: s2229553
 """
 
 import numpy as np
-import glauber_func
-
-rng = np.random.default_rng()
+import isingfunctions as isf
 
 class IsingLattice():
     '''
-    Lattice system under Glauber dynamics
+    Lattice system
     '''
 
     def __init__(self, lattice):
@@ -19,38 +18,25 @@ class IsingLattice():
         self.n = int(len(lattice))
 
     def return_energy_site(self, site):
-        return glauber_func.energy_site(self.n, site, self.lattice)
+        return isf.energy_site(site, self.lattice)
 
     def return_energy_total(self):
-        return glauber_func.energy_total(self.n, self.lattice)
+        return isf.energy_total(self.lattice)
     
     def return_delta_energy(self, energy_mu, energy_nu):
-        return glauber_func.delta_energy(energy_mu, energy_nu)
+        return isf.delta_energy(energy_mu, energy_nu)
     
-    def perform_metropolis_test(self, T):
-        return glauber_func.metropolis_test(self.n, self.lattice, T)
+    def perform_glauber_step(self):
+        return isf.glauber_step(self.lattice)
+    
+    def perform_kawasaki_step(self,):
+        return isf.kawasaki_step(self.lattice)
+    
+    def perform_metropolis(self, delta_e, T):
+        return isf.metropolis_test(delta_e, T)
     
     def return_magnetisation(self):
-        return glauber_func.get_magnetisation(self.lattice)
-        
+        return isf.get_magnetisation(self.lattice)
 
 if __name__ == "__main__":
     print(__name__)
-
-    lattice_test = rng.choice([1], (3,3))
-    site_test = np.array([0,2])
-    print(lattice_test)
-
-    energy = IsingLattice(lattice_test).return_energy_total()
-    print(energy)
-
-    energy_site = IsingLattice(lattice_test).return_energy_site(site_test)
-    print(energy_site)
-
-    delta_E = IsingLattice(lattice_test).return_delta_energy(5,0)
-    print(delta_E)
-
-    m = IsingLattice(lattice_test).return_magnetisation()
-    print(m)
-
-    print(IsingLattice(lattice_test).lattice)
