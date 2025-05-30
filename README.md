@@ -1,61 +1,37 @@
 # 2D Ising Model Simulation
 
-This project implements a Markov Chain Monte Carlo simulation of a 2D Ising model using Glauber and Kawasaki dynamics.
+This project implements a Markov Chain Monte Carlo simulation of a 2D Ising model via the Metropolis algorithm. Both Glauber and Kawasaki dynamics are supported. This programme is developed in three different flavours:
+
+1. A basic NumPy implementation
+2. An optimized JAX version for GPU/TPU acceleration
+3. A C++ version (currently under development)
 
 ## Directory
 
-### Python Scripts
+### Python Scripts and Interactive Notebooks
 
-1. `isingfunctions.py`:
-   - Script containing functions responsible for main ising model computations.
+1. `ising_functions.py`:
+   - Core functions used in the Ising model simulation.
 
-2. `IsingModel.py`:
-   - Script containing the `IsingLattice` class, managing the spin system.
+2. `ising_class.py`:
+   - An `IsingLattice` class implementing object-oriented management of the lattice and update rules.
 
-3. `utils.py`:
-   - Script containing extra functions for data analysis.
+3. `ising_visualisation.ipynb`:
+   - Jupyter notebook demonstrating real time lattice evolution and visualizations for both Glauber and Kawasaki dynamics.
 
-4. `IsingMeasurement.py`:
-   - Script for running a full temperature range simulation, without visualisation.
-   - Implementation:
-   ```
-   % nohup python IsingMeasurement.py <lattice side length> <dynamics 'G' or 'K'> <output .npy file name> > output.txt &
-   ```
-   - Example of implementation:
-   ```
-   % nohup python IsingMeasurement.py 20 G measure_test > output.txt &
-   ```
-
-### Interactive Notebooks
-1. `IsingVisualisation.ipynb`:
-   - Notebook for visualising the dynamics of the spin system at a given temperature.
-
-2. `IsingAnalysis.ipynb`:
-   - Notebook for analysing data from the `IsingMeasurement.py`.
-
-### `.npy` files
-- Used in the `IsingAnalysis.ipynb` notebook, to recall observables data collected from `IsingMeasurement.py`. 
-- Example of implementation in `IsingMeasurement.py`:
-```python
-# user fix parameters!
-data = np.load('measurements_G.npy', allow_pickle=True)
-dynamics = 'Glauber'
-```
-
-### `.png` files
-- Plots of observables that come in pairs, formatted as `dynamics_observables.png`.
-- Legend:
-   - g : Glauber
-   - k : Kawasaki
-   - EM : Energy, Magnetisation
-   - HS : Heat Capcity, Susceptibility
+JAX-accelerated versions of the above are prefixed with `jax_`.
 
 ## Notes
-- Periodic boundary conditions are used
-- At low temperatures, the system tends to be ordered.
-- At high temperatures, the system tends to be disordered.
-- The critical temperature dictates the behaviour of the system.
+- Periodic boundary conditions
+- Configurable temperature and lattice size
+- Real time visualisation of spin configurations over time
+- Supports energy and magnetization tracking
 
 ## Requirements
 - NumPy
+- JAX
 - Matplotlib for visualization
+
+## Future Plans
+- Complete and benchmark the C++ implementation
+- Export data for external analysis
