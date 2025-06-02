@@ -150,7 +150,7 @@ def kawasaki_step(key, lattice, energy, T, J:float=1.):
     nn2_sum = nn_sum(lattice, site2)
 
     # attempting flip
-    delta_energy = J * (lattice[i,j] * nn1_sum + lattice[p,q] * nn2_sum) * 2 # (factor?)
+    delta_energy = J * (lattice[i,j] * nn1_sum + lattice[p,q] * nn2_sum) # * 2 (simulation off by factor of 1/2?)
 
     bool_test, delta_energy = metropolis_test(key, delta_energy + jnp.where(are_nn(site1, site2, n), 4. * J, 0.), T)
 
@@ -160,7 +160,6 @@ def kawasaki_step(key, lattice, energy, T, J:float=1.):
     # swap function for the two lattice sites
     # def swap(lattice):
     #     return lattice.at[i, j].set(lattice[p, q]).at[p, q].set(lattice[i, j])
-
 
     # lattice update
     lattice = lax.cond(
