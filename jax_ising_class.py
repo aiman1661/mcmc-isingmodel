@@ -36,17 +36,11 @@ class IsingLattice():
         self.energy = new_energy
         self.magnetisation = self.return_magnetisation()
 
-    # def perform_kawasaki_step(self):
-    #     kawasaki_site1, kawasaki_site2, delta_E = isf.kawasaki_step(self.lattice)
-    #     metro_bool, delta_E = isf.metropolis_test(delta_E, self.T)
-
-    #     i1, j1 = kawasaki_site1
-    #     i2, j2 = kawasaki_site2
-
-    #     if metro_bool == True:
-    #         self.lattice[i1][j1] *= -1
-    #         self.lattice[i2][j2] *= -1
-    #         self.energy += delta_E
+    def perform_kawasaki_sweep(self, key, J:float=1.):
+        key, new_lattice, new_energy = isf.perform_kawasaki_sweep(key, self.lattice, self.energy, self.T, J)
+        self.lattice = new_lattice
+        self.energy = new_energy
+        self.magnetisation = self.return_magnetisation()
     
     def return_magnetisation(self):
         return isf.get_magnetisation(self.lattice)
